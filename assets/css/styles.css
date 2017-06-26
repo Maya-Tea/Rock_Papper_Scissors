@@ -1,0 +1,60 @@
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 100px;
+  text-align: center;
+  border-style: double;
+  color: white;
+}
+
+h2{
+	text-align:center;
+}
+
+
+
+.jumbotron, #blue {
+
+ background-color: #4B5142 ;
+    color: #C4B19B ;
+  
+}
+
+.panel {
+	padding:10px;
+}
+
+
+
+.panel-title {
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	font-size: 25px;
+	color: white;
+}
+.bold{
+	font-weight:bold;
+}
+
+body {
+    background-color: #BEBBBB ;
+    color: #000000 ;
+    font-family: 'Roboto', sans-serif;
+}
+
+.panel-heading {
+    background-color: #4B5142 ;
+    color: #C4B19B ;
+
+}
+
+.panel-body {
+    background-color: #C4B19B ;
+}
+
+#button {
+    background-color: #BEBBBB ;
+    color: #4B5142 ;
+}
+.chartData{
+	
+}
