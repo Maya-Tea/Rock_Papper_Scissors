@@ -220,9 +220,7 @@ function player2Choice(){
   console.log(player1Data);
   console.log(player2Data);
 
-   database.ref().set({
-   wonMessage:wonMessage
-  });ku
+
 
   updateFireBase();
 
