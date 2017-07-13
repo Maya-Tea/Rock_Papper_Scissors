@@ -9,7 +9,9 @@
 };
 
 firebase.initializeApp(config);
-
+var newDiv;
+var username;
+var numGame=0;
 var database = firebase.database();
 var playersRef = firebase.database().ref("players");
 
@@ -21,20 +23,12 @@ var player2Ref= database.ref('players/player2');
 
 var choice1Ref= database.ref('players/player1/player1Data/choice');
 var choice2Ref= database.ref('players/player2/player2Data/choice');
+var win1Ref= database.ref('players/player1/player1Data/wins');
+var win2Ref= database.ref('players/player2/player2Data/wins');
+var loss1Ref= database.ref('players/player1/player1Data/losses');
+var loss2Ref= database.ref('players/player2/player2Data/losses');
 
-// var win1Ref= database.ref('players/player1/player1Data/wins');
-// var wins2Ref= database.ref('players/player2/player2Data/wins');
 
-// var loss1Ref= database.ref('players/player1/player1Data/losses');
-// var loss2Ref= database.ref('players/player2/player2Data/losses');
-
-var numWins=0;
-var numLosses=0;
-var player1Chose=false;
-var player2Chose=false;
-var choice1;
-var choice2;
-var wonMessage;
 
 var player1Data={};
 var player2Data={};
@@ -136,7 +130,8 @@ $("#addNameButton1").on('click', function(event){
   go(identity);
  
   $("#identity").html("You Are "+identity);
-  player1Data.name = $('#name-input').val().trim();
+  player1Data.name = $('#name-input1').val().trim();
+  username=player1Data.name;
   player1Data.wins = 0;
   player1Data.losses = 0;
   $("#nameInputDiv1").css('display','none');
@@ -152,83 +147,55 @@ $("#addNameButton2").on('click', function(event){
   
   $("#identity").html("You Are "+identity);
   player2Data.name = $('#name-input2').val().trim();
+
+  username=player2Data.name;
   player2Data.wins = 0;
   player2Data.losses = 0;
   $("#nameInputDiv2").css('display','none');  
-  //addGameStuff(2);
+ 
   database.ref("players/player2").set({
     player2Data
   });
 });
+// var entry=0;
+// $("#chatButton").on('click', function(event){
+//     event.preventDefault();
+//     entry++;
+
+//     //varprop=username+entry;
+//   database.ref("chatlog").push({
+//     username
+//   });
+// });
 
 function addGameStuff(num){
-  console.log("hi");
-  var newDiv=$('<div class="col-md-2"> id="choicesDiv"')
-  
-
-  var rock= $('<p class="choice" id="rock">');
-  rock.text("rock");
-  var paper= $('<p class="choice" id="paper"+num>');
-  paper.text("paper");
-  var scissors= $('<p class="choice" id="scissors"+num>');
-  scissors.text("scissors");
-  newDiv.append(rock, paper, scissors);
-  $("#choices"+num).append(newDiv);
+  $("#choices"+num).css("display","block");
 }
+
 function player1Choice(){
-  choice1=$(this).text();
-  $("#choices1").css('display','none');
-  $("#choseAlert1").html("YOU CHOSE "+choice1)
-  player1Data.choice = choice1;
+  var choiceOne=$(this).text();
+ //$("#choices1").css('display','none');
+ $("#choices1").empty();
+  $("#choseAlert1").html(choiceOne);
+  player1Data.choice = choiceOne;
   database.ref("players/player1").set({
     player1Data
   });
-  
 }
+
 function player2Choice(){
-  choice2=$(this).text();
-  choice1=player1Data.choice;
+  var choice=$(this).text();
+  // choice1=player1Data.choice;
 
-  $("#choices2").css('display','none');
-  $("#choseAlert2").html("YOU CHOSE "+choice2)
-  player2Data.choice = choice2;
+  $("#choices2").empty();
+  $("#choseAlert2").html(choice);
+  player2Data.choice = choice;
   database.ref("players/player2").set({
-    player2Data
-  });
-  player2Chose=true;
-  var wonMessage=$("<p class='win_message'>");
-  $("#fightArea").append(choice1+" vs "+choice2);
-  if((choice1=="scissors"&&choice2=="paper")||(choice1=="paper"&&choice2=="rock")||(choice1=="rock"&&choice2=="scissors")){
-
-    wonMessage="player 1 Won";
-    player1Data.wins++;
-    player2Data.losses++;
-                
-  }
-
-  else if (choice1==choice2){
-    wonMessage="Tie";
-  }
-
-  else{
-    wonMessage="player 2 Won";
-    player2Data.wins++;
-    player1Data.losses++;
-  }
-
-  $("#fightArea").append(wonMessage);
-  console.log(player1Data);
-  console.log(player2Data);
-
-
-
-  updateFireBase();
-
- 
-
+     player2Data
+   });
 }
+
 function updateFireBase(){
-  
   database.ref("players/player1").set({
     player1Data
   });
@@ -265,14 +232,9 @@ player1Ref.on("value", function(snapshot) {
 });
 
 
-
-
-
-
-
-
 name1Ref.on("value", function(snapshot) {
   $("#player1Name").html(snapshot.val());
+
 
 }, function(errorObject) {
   console.log("The read failed: " + errorObject.code);
@@ -280,30 +242,152 @@ name1Ref.on("value", function(snapshot) {
 
 name2Ref.on("value", function(snapshot) {
   $("#player2Name").html(snapshot.val());
-
-}, function(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-
-
-choice1Ref.on("value", function(snapshot) {
-  if(identity=="player2"){
-  addGameStuff(2)
+  if(identity==="player1"){
+    $("#player1Name").html(player1Data.name+"-Make a Choice");
+  }
+  if(identity==="player2"){
+    $("#player1Name").html(player1Data.name+"-Chosing Now");
   }
 
 }, function(errorObject) {
   console.log("The read failed: " + errorObject.code);
 });
 
-//function war(){
+win1Ref.on("value", function(snap){
+    if(parseInt(snap.val())>=0){
+      console.log(snap.val());
+      $("#wins1").html("Wins: "+snap.val());
+    }
+});
 
-//choice2Ref.on("value", function(snapshot) {
-  // choice1=player1Snap.choice;
-  //choice2=player2Snap.choice;
+loss1Ref.on("value", function(snap){
+    if(parseInt(snap.val())>=0){
+      console.log(snap.val());
+      $("#losses1").html("Losses: "+snap.val());
+    }
+});
+
+win2Ref.on("value", function(snap){
+    if(parseInt(snap.val())>=0){
+      console.log(snap.val());
+      $("#wins2").html("Wins: "+snap.val());
+    }
+});
+
+loss2Ref.on("value", function(snap){
+    if(parseInt(snap.val())>=0){
+      console.log(snap.val());
+      $("#losses2").html("Losses: "+snap.val());
+    }
+});
+
+
+
+choice1Ref.on("value", function(snapshot) {
+ 
+  if(identity=="player2"&&snapshot.val()){
+      if(numGame===0){
+      addGameStuff(2)
+      $("#player2Name").html(player2Data.name+"-Make a Choice");
+    }
+    else{
+      $("#choices2").append(newDiv);
+       $("#player1Name").html(player1Data.name);
+       $("#player2Name").html(player2Data.name+"-Make a Choice");
+    }
+  
+  }
+  
+    $("#player1Name").html(player1Data.name);
+  
+  if(identity==="player1"||identity==="viewer"){
+    $("#player2Name").html(player2Data.name+"-Chosing Now");
+  }
+
+}, function(errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+
+
+choice2Ref.on("value", function(snapshot) {
+  
+  var choice1=player1Data.choice;
+  var choice2=snapshot.val();
+  $("#choseAlert1").html(choice1);
+  $("#choseAlert2").html(choice2);
+  $("#player2Name").html(player2Data.name);
+  console.log(choice1);
+  console.log(choice2);
+  console.log("hello NUrse");
+  if(choice1&&choice2){  
+
+  if((choice1=="scissors"&&choice2=="paper")||(choice1=="paper"&&choice2=="rock")||(choice1=="rock"&&choice2=="scissors")){
+
+    wonMessage="Player 1 Won";
+    player1Data.wins++;
+    player2Data.losses++;
+                
+  }
+
+  else if (choice1==choice2){
+    wonMessage="Tie";
+  }
+
+  else{
+    wonMessage="Player 2 Won";
+    player2Data.wins++;
+    player1Data.losses++;
+  }
+  player2Data.choice=choice2;
+  $("#wonMessage").html(wonMessage);
+  
+  updateFireBase();
+  setTimeout(reset, 4000);
+}
+
+function reset(){
+  numGame++;
+  $("#wonMessage").html("");
+  console.log("hellllllooooo");
+  delete player1Data.choice;
+  delete player2Data.choice;
+  $("#choseAlert1").html("");
+  updateFireBase();
+
+  newDiv=$('<div id="choicesDiv">');
+  var rock= $('<p class="choice">');
+  rock.text("rock");
+  var paper= $('<p class="choice">');
+  paper.text("paper");
+  var scissors= $('<p class="choice">');
+  scissors.text("scissors");
+  newDiv.append(rock, paper, scissors);
+
+  $("#choicesDiv").css("text-align", "center");
+ 
+
+  if(identity==="player1"){
+   $("#choices1").append(newDiv);
+      $("#player1Name").html(player1Data.name+"-Make A choice");
+      
+     
+      // $( ".choice" ).hover(
+      //   function() {
+      //     $(".choice").css("border", "2px solid yellow")
+      //   }, function() {
+      //     $(".choice").css("border", "none")
+      //   }
+      // );
+  }
+  if(identity==="player2"||identity==="viewer"){
+    $("#player1Name").html(player1Data.name+"-Chosing Now");
+  }
+
+  //$("#choices1").append(newDiv);
+}
+
 
   
-  //updateFirebase();
-  
 
-//});
+});
 

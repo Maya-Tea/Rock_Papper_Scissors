@@ -21,65 +21,79 @@
 
 <div class="container">
 
-    <div class="jumbotron">
+    <heading>
       <h1> Rock Paper Scisssors </h1>
-      <h5 id=identity></h5>
-    </div>
+      
+    </heading>
     <h2> Number of Viewers: <span id="numViewers"></span></h2>
 
   <div class="row">
 
-    <div class="col-md-4 panel panel-default">
-      <div id="blue" class="panel-heading">
-        <div class="panel-title">
+    <div class="col-xs-4 pane">
+       <div class="name_area">
          <span id="player1Name">Waiting For Player 1</span>
-        </div>
+        
       </div>
   
-      <div class="panel-body" id="player1Info">
+      <div class="info_area" id="player1Info">
         <div class='row' id="nameInputDiv1">
-            <label for="name-input">Name</label>
-            <input type="text" class="form-control" id="name-input">
-            <button class="btn" id="addNameButton1"> Submit </button>
+
+            <label for="name-input1">Name </label>
+            <input type="text" id="name-input1" class="name_text">
+            <br>
+            <button class="btn" id="addNameButton1"> Play </button>
         </div>
-        <div id="choseAlert1"></div>
+
+        <div id="choseAlert1" class="choice_alert"></div>
         <div class="row" id="choices1">
-             
+            <p class="choice">rock</p>
+             <p class="choice">paper</p>
+             <p class="choice">scissors</p>
         </div>
 
         <div class="row">
-          <span id="wins"></span>
-          <span id="losses"></span>
+        <hr>
+          <span id="wins1"></span>
+          <span id="losses1"></span>
         </div>
-
+        
       </div> 
 
     </div>
 
-    <div class="col-md-4" id="fightArea"></div>
+    <div class="col-xs-4" id="fightArea">
+    <div id="fightcontents">
+        <h5 id=identity></h5>
+        <p id="wonMessage"></p>  
+    </div>
+    </div>
 
-    <div class="col-md-4 panel panel-default">
-      <div id="blue" class="panel-heading">
-        <div class="panel-title">
+    <div class="col-xs-4 pane">
+       <div class="name_area">
          <span id="player2Name">Waiting For Player 2</span>
-        </div>
+        
       </div>
   
-      <div class="panel-body" id="player2Info">
+      <div class="info_area" id="player2Info">
         <div class='row' id="nameInputDiv2">
-            <label for="name-input2">Name</label>
-            <input type="text" class="form-control" id="name-input2">
-            <button class="btn" id="addNameButton2"> Submit </button>
+
+            <label for="name-input2">Name </label>
+            <input type="text" id="name-input2" class="name_text">
+            <br>
+            <button class="btn" id="addNameButton2"> Play </button>
         </div>
 
-        <div id="choseAlert1"></div>
+        <div id="choseAlert2" class="choice_alert"></div>
         <div class="row" id="choices2">
-            
+            <p class="choice">rock</p>
+             <p class="choice">paper</p>
+             <p class="choice">scissors</p>
         </div>
 
         <div class="row">
-          <span id="wins"></span>
-          <span id="losses"></span>
+        <hr>
+          <span id="wins2"></span>
+          <span id="losses2"></span>
         </div>
         
       </div> 
@@ -87,6 +101,13 @@
     </div>
   
   </div>
+  <!-- <div class="row">
+    <textarea id="chatText" rows="4" cols="50"></textarea><button class="btn" id="chatButton">"Say It!"</button>
+
+  </div>
+  <div class="row">
+      <div id="chatLog"></div>
+  </div> -->
 </div>
 
 
